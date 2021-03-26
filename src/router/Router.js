@@ -1,22 +1,38 @@
 import React from "react";
 import { HashRouter, Route, Switch } from "react-router-dom";
 
+import Employment from "../pages/employment/Employment";
 const routes = [
   {
-    path: "/home",
+    path: "/employment",
     exact: true,
-    sidebar: () => <div>home!</div>,
-    main: () => <h2>Home</h2>,
+    name: "前程似锦",
+    component: Employment,
   },
   {
-    path: "/bubblegum",
-    sidebar: () => <div>bubblegum!</div>,
-    main: () => <h2>Bubblegum</h2>,
+    path: "/school",
+    name: "成电校园",
+    component: () => <h2>成电校园</h2>,
   },
   {
-    path: "/shoelaces",
-    sidebar: () => <div>shoelaces!</div>,
-    main: () => <h2>Shoelaces</h2>,
+    path: "/scientific",
+    name: "科技学术",
+    component: () => <h2>Shoelaces</h2>,
+  },
+  {
+    path: "/daily",
+    name: "生活信息",
+    component: () => <h2>Shoelaces</h2>,
+  },
+  {
+    path: "/entertainment",
+    name: "休闲娱乐",
+    component: () => <h2>Shoelaces</h2>,
+  },
+  {
+    path: "/announcement",
+    name: "站务管理",
+    component: () => <h2>Shoelaces</h2>,
   },
 ];
 const BasicRoute = () => (
@@ -27,11 +43,13 @@ const BasicRoute = () => (
           key={index}
           path={route.path}
           exact={route.exact}
-          children={<route.main />}
+          render={(props) => (
+            <route.component {...props} routes={route.routes}></route.component>
+          )}
         />
       ))}
     </Switch>
   </HashRouter>
 );
 
-export default BasicRoute;
+export { routes, BasicRoute };

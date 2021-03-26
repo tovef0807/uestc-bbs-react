@@ -1,22 +1,16 @@
 import React from "react";
-import { Layout, Menu, Breadcrumb } from "antd";
-import BasicRoute from "../router/Router";
+import { Layout, Breadcrumb } from "antd";
+import { BasicRoute } from "../router/Router";
+import BaseHeader from "./BaseHeader";
 import "./BaseLayout.less";
 
-const { Header, Content, Footer } = Layout;
+const { Content, Footer } = Layout;
 
-export default class Detail extends React.Component {
+export default class BaseLayout extends React.Component {
   render() {
     return (
       <Layout>
-        <Header style={{ position: "fixed", zIndex: 1, width: "100%" }}>
-          <div className="logo" />
-          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["2"]}>
-            <Menu.Item key="1">nav 1</Menu.Item>
-            <Menu.Item key="2">nav 2</Menu.Item>
-            <Menu.Item key="3">nav 3</Menu.Item>
-          </Menu>
-        </Header>
+        <BaseHeader />
         <Content
           className="site-layout"
           style={{ padding: "0 50px", marginTop: 64 }}
