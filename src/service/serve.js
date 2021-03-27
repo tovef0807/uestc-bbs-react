@@ -1,10 +1,10 @@
 import axios from "axios";
 import { message } from "antd";
-
+import qs from "qs";
 /**
  * 设置超时时间和跨域是否允许携带凭证
  */
-axios.defaults.baseURL = "/mobcent/app/web/index.php?r=";
+const baseURL = "/mobcent/app/web/index.php?r=";
 axios.defaults.timeout = 10000; //10秒
 axios.defaults.withCredentials = true;
 
@@ -51,13 +51,13 @@ axios.interceptors.request.use(
 
 // 响应拦截器
 axios.interceptors.response.use(
-  (config) => {
-    if (config.data.statusCode >= 3000) {
-      message.error(config.data.msg);
+  (res) => {
+    if (res.data.errcode || res.data.rs !== 1) {
+      message.error(res.data.msg);
     }
-    removeSource(config.config);
+    removeSource(res.config);
 
-    return config.data;
+    return res.data;
   },
   (error) => {
     if (!error.response) return;
@@ -135,7 +135,7 @@ function get(url, params) {
 function post(url, params) {
   return new Promise((resolve, reject) => {
     axios
-      .post(`${url}`, params)
+      .post(`${baseURL}${url}`, qs.stringify(params))
       .then((res) => {
         resolve(res);
       })
