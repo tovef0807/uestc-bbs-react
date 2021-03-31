@@ -1,6 +1,10 @@
 import { post } from "./serve";
 
-const login = (params) => post("user/login", params);
+const login = (params) =>
+  post("user/login", {
+    type: "login",
+    ...params,
+  });
 const register = (params) => post("user/register", params);
 const location = (params) => post("user/location", params);
 
