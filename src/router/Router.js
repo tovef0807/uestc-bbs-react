@@ -1,55 +1,136 @@
 import React from "react";
-import { HashRouter, Route, Switch } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
+import Jobs from "../pages/employment/jobs/Jobs";
+import Login from "../components/base/Login";
 
-import Employment from "../pages/employment/Employment";
 const routes = [
   {
+    path: "/login",
+    name: "登录",
+    matchId: 0,
+    component: Login,
+  },
+  {
     path: "/employment",
-    exact: true,
     name: "前程似锦",
-    component: Employment,
+    matchId: 427,
+    component: PageContainer,
+    routes: [
+      {
+        path: "/employment/174",
+        name: "就业创业",
+        matchId: 174,
+        component: Jobs,
+      },
+    ],
   },
   {
     path: "/school",
     name: "成电校园",
-    component: () => <h2>成电校园</h2>,
+    matchId: 273,
+    component: PageContainer,
+    routes: [
+      {
+        path: "/employment/174",
+        exact: true,
+        name: "前程似锦",
+        matchId: 174,
+        component: () => <h2>Shoelaces</h2>,
+      },
+    ],
   },
   {
     path: "/scientific",
     name: "科技学术",
-    component: () => <h2>Shoelaces</h2>,
+    matchId: 95,
+    component: PageContainer,
+    routes: [
+      {
+        path: "/employment/174",
+        exact: true,
+        name: "前程似锦",
+        matchId: 174,
+        component: () => <h2>Shoelaces</h2>,
+      },
+    ],
   },
   {
     path: "/daily",
     name: "生活信息",
-    component: () => <h2>Shoelaces</h2>,
+    matchId: "427",
+    component: PageContainer,
+    routes: [
+      {
+        path: "/employment/174",
+        exact: true,
+        name: "前程似锦",
+        matchId: 174,
+        component: () => <h2>Shoelaces</h2>,
+      },
+    ],
   },
   {
     path: "/entertainment",
     name: "休闲娱乐",
-    component: () => <h2>Shoelaces</h2>,
+    matchId: 203,
+    component: PageContainer,
+    routes: [
+      {
+        path: "/employment/174",
+        exact: true,
+        name: "前程似锦",
+        matchId: 174,
+        component: () => <h2>Shoelaces</h2>,
+      },
+    ],
   },
   {
     path: "/announcement",
     name: "站务管理",
-    component: () => <h2>Shoelaces</h2>,
+    matchId: 1,
+    component: PageContainer,
+    routes: [
+      {
+        path: "/employment/174",
+        exact: true,
+        name: "前程似锦",
+        matchId: 174,
+        component: () => <h2>Shoelaces</h2>,
+      },
+    ],
   },
 ];
-const BasicRoute = () => (
-  <HashRouter>
+
+function RouteConfig() {
+  return (
     <Switch>
-      {routes.map((route, index) => (
-        <Route
-          key={index}
-          path={route.path}
-          exact={route.exact}
-          render={(props) => (
-            <route.component {...props} routes={route.routes}></route.component>
-          )}
-        />
+      {routes.map((route, i) => (
+        <RouteWithSubRoutes key={i} {...route} />
       ))}
     </Switch>
-  </HashRouter>
-);
+  );
+}
 
-export { routes, BasicRoute };
+function RouteWithSubRoutes(route) {
+  return (
+    <Route
+      path={route.path}
+      render={(props) => (
+        // pass the sub-routes down to keep nesting
+        <route.component {...props} routes={route.routes} />
+      )}
+    />
+  );
+}
+
+function PageContainer({ routes }) {
+  return (
+    <Switch>
+      {routes.map((route, i) => (
+        <RouteWithSubRoutes key={i} {...route} />
+      ))}
+    </Switch>
+  );
+}
+
+export { routes, RouteConfig };

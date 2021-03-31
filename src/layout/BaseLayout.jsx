@@ -1,14 +1,19 @@
 import React from "react";
 import { Layout, Breadcrumb } from "antd";
-import { BasicRoute } from "../router/Router";
+import { RouteConfig } from "../router/router";
 import BaseHeader from "./BaseHeader";
+import { withRouter } from "react-router-dom";
 import "./BaseLayout.less";
+import EmptyLayout from "./EmptyLayout";
 
 const { Content, Footer } = Layout;
 
-export default class BaseLayout extends React.Component {
+class BaseLayout extends React.Component {
   render() {
-    return (
+    const isEmptyLayout = this.props.location.pathname === "/login";
+    const layout = isEmptyLayout ? (
+      <EmptyLayout />
+    ) : (
       <Layout>
         <BaseHeader />
         <Content
@@ -21,7 +26,7 @@ export default class BaseLayout extends React.Component {
             <Breadcrumb.Item>App</Breadcrumb.Item>
           </Breadcrumb>
           <div className="content" style={{ padding: 24, minHeight: 380 }}>
-            <BasicRoute />
+            <RouteConfig />
           </div>
         </Content>
         <Footer style={{ textAlign: "center" }}>
@@ -29,5 +34,8 @@ export default class BaseLayout extends React.Component {
         </Footer>
       </Layout>
     );
+    return layout;
   }
 }
+
+export default withRouter(BaseLayout);
